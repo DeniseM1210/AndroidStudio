@@ -30,8 +30,8 @@ public class ActivityMenu extends Activity {
         startActivity(i);
     }
 
-    public void abrirActivityBajas(View view){
-        Intent i = new Intent(this, ActivityBajas.class);
+    public void abrirActivityConsultas(View view){
+        Intent i = new Intent(this, ActivityConsultas.class);
         startActivity(i);
     }
 

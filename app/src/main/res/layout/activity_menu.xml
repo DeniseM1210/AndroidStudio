@@ -11,8 +11,8 @@
         android:id="@+id/btn_altas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="156dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="165dp"
         android:onClick="abrirActivityAltas"
         android:text="Agregar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,13 +29,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_bajas"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="156dp"
-        android:onClick="abrirActivityBajas"
-        android:text="Eliminar"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="166dp"
+        android:onClick="abrirActivityConsultas"
+        android:text="Lista"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_altas" />
 </androidx.constraintlayout.widget.ConstraintLayout>

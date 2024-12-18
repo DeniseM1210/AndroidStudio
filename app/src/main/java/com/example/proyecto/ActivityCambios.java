@@ -3,6 +3,7 @@ package com.example.proyecto;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,15 +26,54 @@ import java.util.Locale;
 
 import controlador.AnalizadorJSON;
 
-public class ActivityAltas extends Activity {
-    private EditText editTextDate;
+public class ActivityCambios extends Activity {
+
+    private EditText etnc,etn,etpA,etsA,ett, editTextDate;
+    private Spinner sps,spc;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_altas);
+        setContentView(R.layout.activity_cambios);
+        Intent intent = getIntent();
+        etnc = findViewById(R.id.altas_nc);
+        etnc.setFocusable(false);
+        etnc.setFocusableInTouchMode(false);
+        etnc.setText(intent.getStringExtra("nc"));
 
+        etn = findViewById(R.id.altas_n);
+        etn.setText(intent.getStringExtra("n"));
 
-        editTextDate = findViewById(R.id.altas_f); // Asegúrate de tener un EditText en tu XML
+        etpA = findViewById(R.id.altas_pAp);
+        etpA.setText(intent.getStringExtra("pAp"));
+
+        etsA = findViewById(R.id.altas_sAp);
+        etsA.setText(intent.getStringExtra("sAp"));
+
+        sps = findViewById(R.id.altas_s);
+        sps.setSelection(Integer.parseInt(intent.getStringExtra("s"))-1);
+
+        spc = findViewById(R.id.altas_c);
+        int x = 0;
+        String c = intent.getStringExtra("c");
+        if(c.equals("LA")){
+            x = 0;
+        }else if(c.equals("CP")) {
+            x = 1;
+        }else if(c.equals("ISC")) {
+            x = 2;
+        }else if(c.equals("IM")) {
+            x =3;
+        }else if(c.equals("IIA")){
+            x = 4;
+        }
+        spc.setSelection(x);
+
+        editTextDate = findViewById(R.id.altas_f);
+        editTextDate.setText(intent.getStringExtra("f"));
+
+        ett = findViewById(R.id.altas_t);
+        ett.setText(intent.getStringExtra("t"));
+
 
         // Crear un Calendar para obtener la fecha actual
         final Calendar calendar = Calendar.getInstance();
@@ -45,7 +84,7 @@ public class ActivityAltas extends Activity {
         // Establecer un listener para el EditText
         editTextDate.setOnClickListener(v -> {
             // Mostrar un DatePickerDialog
-            new DatePickerDialog(ActivityAltas.this, new DatePickerDialog.OnDateSetListener() {
+            new DatePickerDialog(ActivityCambios.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     // Establecer la fecha seleccionada en el EditText con el formato deseado
@@ -59,14 +98,16 @@ public class ActivityAltas extends Activity {
         });
 
     }
-    public void agregarAlumno(View v){
-        //1) obtener los datos de la GUI
-        //2) Crear una instancia de alumnos
+
+
+    public void ediatAlumno(View v){
+
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         Network network = cm.getActiveNetwork();
 
         EditText enc = findViewById(R.id.altas_nc);
         String nc = enc.getText().toString();
+
 
         EditText en = findViewById(R.id.altas_n);
         String n = en.getText().toString();
@@ -85,8 +126,6 @@ public class ActivityAltas extends Activity {
 
 
         EditText ef = findViewById(R.id.altas_f);
-        ef.setFocusable(false);
-        ef.setFocusableInTouchMode(false);
         String f = ef.getText().toString();
 
 
@@ -97,7 +136,7 @@ public class ActivityAltas extends Activity {
 
 
         if(network != null && cm.getNetworkCapabilities(cm.getActiveNetwork())!=null){
-            String url = "http://10.0.2.2:81/Semestre_Ago_Dic_2024/ProyectoTutorias_2024/api_rest_android_escuela/api_mysql_altas.php";
+            String url = "http://10.0.2.2:81/Semestre_Ago_Dic_2024/ProyectoTutorias_2024/api_rest_android_escuela/api_mysql_cambios.php";
             String metodo = "POST";
             ArrayList datos = new ArrayList();
             datos.add(nc);
@@ -123,11 +162,13 @@ public class ActivityAltas extends Activity {
                         String res = jsonObject.getString("res");
                         if(res.equals("exito")){
 
-                            Log.i("MSJ->","insercion correcta");
+                            Log.i("MSJ->","correcta");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getBaseContext(),"Insercion Correcta",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(),"Correcta",Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(ActivityCambios.this, ActivityConsultas.class);
+                                    startActivity(intent);
                                 }
                             });
                         }

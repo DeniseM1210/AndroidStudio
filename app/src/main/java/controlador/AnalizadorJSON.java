@@ -25,12 +25,12 @@ public class AnalizadorJSON {
     public JSONObject peticionHTTP(String direccionURL, String metodo, ArrayList<String> datos){
         //Cadena JSON {"nc":"12345", "n":"Antony", "pAp":"Stark"}...
         String cadenaJSON = "";
-        if(datos.size() == 1){
-            cadenaJSON = "{\"nc\":\""+ datos.get(0) + "\"}";
+        System.out.println(datos.size());
+        if(datos.size()==1){
+            cadenaJSON = "{\"nc\":\""+datos.get(0) + "\"}";
         }else{
             cadenaJSON = "{\"nc\":\"" + datos.get(0) + "\",\"n\":\"" + datos.get(1) + "\",\"pAp\":\"" + datos.get(2) + "\",\"sAp\":\"" + datos.get(3) + "\",\"s\":\"" + datos.get(4) + "\",\"c\":\"" + datos.get(5) + "\",\"f\":\"" + datos.get(6) + "\",\"t\":\"" + datos.get(7) + "\"}";
         }
-
 
         try {
             url = new URL(direccionURL);
@@ -53,6 +53,7 @@ public class AnalizadorJSON {
             os.write(cadenaJSON.getBytes());
             os.flush();
             os.close();
+            System.out.println(cadenaJSON);
 
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
